@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
-import ReviewCard from "../components/ReviewCard";
+import CardSlider from "../components/CardSlider";
 
 export default function Home() {
     const [reviews, setReviews] = useState([]);
-
     useEffect(() => {
         fetch("http://localhost:5000/api/reviews")
             .then(res => res.json())
-            .then(setReviews)
+            .then(data => {
+                // Duplicate the reviews array for testing
+                const testReviews = [...data, ...data, ...data, ...data, ...data].map((r, i) => ({
+                    ...r,
+                    _id: r._id ? `${r._id}-${i}` : i, // ensure unique keys
+                }));
+                setReviews(testReviews);
+            });
     }, []);
-
-    return (
-        <div className="p-6 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {reviews.map(r => <ReviewCard key={r.id} review={r} />)}
-        </div>
-        // <div>
-        //     <h1>Hello World</h1>
-        // </div>
-    )
+    return <CardSlider reviews={reviews} />;
 }
-

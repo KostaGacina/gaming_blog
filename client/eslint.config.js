@@ -21,6 +21,12 @@ export default [
       'react-refresh': reactRefresh,
     },
     rules: {
+      'at-rule-no-unknown': [
+        'error',
+        {
+          ignoreAtRules: ['tailwind', 'apply', 'variants', 'responsive', 'screen'],
+        },
+      ],
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
